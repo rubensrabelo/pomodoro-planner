@@ -8,6 +8,7 @@ classDiagram
         id: int
         title: str
         started_at: date
+        finished_at: date
         status: StatusEnum
         priority: PriorityEnum
         created_at: datetime
