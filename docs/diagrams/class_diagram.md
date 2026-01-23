@@ -5,17 +5,37 @@ classDiagram
     direction LR
 
     class Task {
-        +id: int
-        +title: str
-        +startedAt: date
-        +status: bool
+        id: int
+        title: str
+        started_at: datetime
+        status: StatusEnum
+        priority: PriorityEnum
+        created_at: datetime
+        updated_at: datetime
     }
 
     class PomodoroSession {
-        +id: int
-        +durationMinutes: int
-        +status: bool
+        id: int
+        duration_minutes: int
+        is_completed: bool
+        created_at: datetime
+        updated_at: datetime
+    }
+
+    class StatusEnum {
+        <<enumeration>>
+        PENDING
+        IN_PROGRESS
+        COMPLETED
+    }
+
+    class PriorityEnum {
+        <<enumeration>>
+        HIGH
+        MEDIUM
+        LOW
     }
 
     Task "1" --> "0..*" PomodoroSession : has
+
 ```
