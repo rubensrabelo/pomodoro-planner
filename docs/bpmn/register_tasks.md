@@ -1,4 +1,4 @@
-### Registro de tarefas com pomodoros
+### Cadastro de Tarefa com Tags
 
 ```mermaid
 flowchart LR
@@ -8,8 +8,11 @@ flowchart LR
     AbrirTarefas --> NovaTarefa[Criar nova tarefa]
     NovaTarefa --> PreencherDados[Preencher dados da tarefa]
 
-    PreencherDados --> DefinirPomodoros[Definir quantidade de pomodoros]
-    DefinirPomodoros --> RevisarTarefa[Revisar informações]
+    PreencherDados --> DefinirDatas[Definir datas de início e término]
+    DefinirDatas --> DefinirPrioridade[Definir prioridade]
+
+    DefinirPrioridade --> SelecionarTags[Selecionar ou criar tags]
+    SelecionarTags --> RevisarTarefa[Revisar informações]
 
     RevisarTarefa --> SalvarTarefa[Salvar tarefa]
 

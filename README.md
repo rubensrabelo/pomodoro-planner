@@ -71,6 +71,7 @@ A pasta `docs` concentra os artefatos de apoio ao projeto, como diagramas e mode
 ### BPMN
 
 * [Cadastro de tarefas com pomodoros](./docs/bpmn/register_tasks.md)
+* [Cadastro Manual de Pomodoros em uma Tarefa](./docs/bpmn/register_pomodor_in_task.md)
 
 ### Diagrama de Classes
 
