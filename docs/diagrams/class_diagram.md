@@ -24,6 +24,13 @@ classDiagram
         updated_at: datetime
     }
 
+    class Tag {
+        id: int
+        name: str
+        created_at: datetime
+        updated_at: datetime
+    }
+
     class StatusEnum {
         <<enumeration>>
         PENDING
@@ -39,5 +46,5 @@ classDiagram
     }
 
     Task "1" --> "0..*" PomodoroSession : has
-
+    Task "0..*" --> "0..*" Tag : tagged_with
 ```
