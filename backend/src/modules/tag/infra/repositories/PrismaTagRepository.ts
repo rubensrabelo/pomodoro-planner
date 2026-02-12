@@ -1,5 +1,6 @@
 import { prisma } from "../../../../infra/prisma/client";
 import { Tag } from "../../domain/Tag";
+import { EntityNotFoundError } from "../errors/EntityNotFoundError";
 import { ITagRepository } from "./ITagRepository";
 
 export class PrismaTagRepository implements ITagRepository {
@@ -30,17 +31,31 @@ export class PrismaTagRepository implements ITagRepository {
   }
 
   async update(id: number, name: string): Promise<Tag> {
-    const tag = await prisma.tag.update({
-      where: { id },
-      data: { name }
-    });
+    try {
+      const tag = await prisma.tag.update({
+        where: { id },
+        data: { name }
+      });
 
-    return new Tag(tag.id, tag.name, tag.createdAt, tag.updatedAt);
+      return new Tag(tag.id, tag.name, tag.createdAt, tag.updatedAt);
+    } catch (err: any) {
+      if (err.code === "P2025") {
+        throw new EntityNotFoundError("Tag");
+      }
+      throw err;
+    }
   }
 
   async delete(id: number): Promise<void> {
-    await prisma.tag.delete({
-      where: { id }
-    });
+    try {
+      await prisma.tag.delete({
+        where: { id }
+      });
+    } catch (err: any) {
+      if (err.code === "P2025") {
+        throw new EntityNotFoundError("Tag");
+      }
+      throw err;
+    }
   }
 }
