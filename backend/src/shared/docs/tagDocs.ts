@@ -1,5 +1,60 @@
 /**
  * @openapi
+ * components:
+ *   schemas:
+ *     Tag:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           example: 1
+ *         name:
+ *           type: string
+ *           example: backend
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *       required:
+ *         - id
+ *         - name
+ *
+ *     CreateTag:
+ *       type: object
+ *       description: Payload to create a new tag. Tag name must be unique.
+ *       properties:
+ *         name:
+ *           type: string
+ *           minLength: 2
+ *           maxLength: 50
+ *           example: backend
+ *       required:
+ *         - name
+ *
+ *     UpdateTag:
+ *       type: object
+ *       description: Payload to update a tag. Tag name must be unique.
+ *       properties:
+ *         name:
+ *           type: string
+ *           minLength: 2
+ *           maxLength: 50
+ *           example: backend
+ *       required:
+ *         - name
+ *
+ *     ErrorResponse:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           example: Tag name already exists
+ */
+
+/**
+ * @openapi
  * tags:
  *   - name: Tags
  *     description: Tag management
@@ -68,6 +123,12 @@
  *               $ref: '#/components/schemas/Tag'
  *       400:
  *         description: Validation error
+ *       409:
+ *         description: Tag name already exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 
 /**
@@ -95,8 +156,16 @@
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Tag'
+ *       400:
+ *         description: Validation error
  *       404:
  *         description: Tag not found
+ *       409:
+ *         description: Tag name already exists
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
  */
 
 /**
