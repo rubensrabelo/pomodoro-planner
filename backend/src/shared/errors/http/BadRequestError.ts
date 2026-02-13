@@ -1,4 +1,4 @@
-import { AppError } from "./AppError";
+import { AppError } from "../base/AppError";
 
 export type ValidationErrorItem = {
   field: string;

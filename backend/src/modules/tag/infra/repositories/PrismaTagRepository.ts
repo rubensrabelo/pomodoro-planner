@@ -1,6 +1,6 @@
 import { prisma } from "../../../../infra/prisma/client";
+import { DuplicateEntityError, EntityNotFoundError } from "../../../../shared/errors";
 import { Tag } from "../../domain/Tag";
-import { EntityNotFoundError } from "../errors/EntityNotFoundError";
 import { ITagRepository } from "./ITagRepository";
 
 export class PrismaTagRepository implements ITagRepository {
@@ -23,11 +23,18 @@ export class PrismaTagRepository implements ITagRepository {
   }
 
   async create(name: string): Promise<Tag> {
-    const tag = await prisma.tag.create({
-      data: { name }
-    });
+    try {
+      const tag = await prisma.tag.create({
+        data: { name }
+      });
 
-    return new Tag(tag.id, tag.name, tag.createdAt, tag.updatedAt);
+      return new Tag(tag.id, tag.name, tag.createdAt, tag.updatedAt);
+    } catch (err: any) {
+      if (err.code === "P2002") {
+        throw new DuplicateEntityError("Tag", "name");
+      }
+      throw err;
+    }
   }
 
   async update(id: number, name: string): Promise<Tag> {

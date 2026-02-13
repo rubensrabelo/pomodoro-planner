@@ -4,8 +4,12 @@ import { CreateTagDTO } from "../dtos/CreateTagDTO";
 import { UpdateTagDTO } from "../dtos/UpdateTagDTO";
 import { TagResponseDTO } from "../dtos/TagResponseDTO";
 import { Tag } from "../../domain/Tag";
-import { NotFoundError } from "../../../../shared/errors/NotFound";
-import { EntityNotFoundError } from "../../infra/errors/EntityNotFoundError";
+import { 
+  ConflictError,
+  DuplicateEntityError,
+  EntityNotFoundError,
+  NotFoundError 
+} from "../../../../shared/errors";
 
 export class TagService implements ITagService {
   constructor(
@@ -27,8 +31,15 @@ export class TagService implements ITagService {
   }
 
   async create(data: CreateTagDTO): Promise<TagResponseDTO> {
-    const tag = await this.tagRepository.create(data.name);
-    return this.toResponseDTO(tag);
+    try {
+      const tag = await this.tagRepository.create(data.name);
+      return this.toResponseDTO(tag);
+    } catch (err: any) {
+      if (err instanceof DuplicateEntityError) {
+        throw new ConflictError("Tag name already exists");
+      }
+      throw err;
+    }
   }
 
   async update(data: UpdateTagDTO): Promise<TagResponseDTO> {
