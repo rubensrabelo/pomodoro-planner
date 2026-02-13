@@ -4,9 +4,9 @@ export const swaggerSpec = swaggerJsdoc({
   definition: {
     openapi: "3.0.3",
     info: {
-      title: "Tag API",
+      title: "PomoPlanner API",
       version: "1.0.0",
-      description: "API for managing tags",
+      description: "API for managing tasks with pomodoro",
     },
     servers: [
       {
