@@ -7,8 +7,10 @@ classDiagram
     class Task {
         id: int
         title: str
-        started_at: date
-        finished_at: date
+        description: str
+        estimated_pomodoros: int
+        started_at: datetime
+        finished_at: datetime
         status: StatusEnum
         priority: PriorityEnum
         created_at: datetime
@@ -17,7 +19,8 @@ classDiagram
 
     class PomodoroSession {
         id: int
-        started_at: date
+        started_at: datetime
+        finished_at: datetime
         duration_minutes: int
         is_completed: bool
         created_at: datetime
