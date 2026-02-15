@@ -11,19 +11,19 @@ enum PriorityEnum {
 }
 
 model Task {
-  id                 Int                @id @default(autoincrement())
+  id                 Int          @id @default(autoincrement())
   title              String
   description        String
-  estimatedPomodoros Int                @map("estimated_pomodoros")
-  startedAt          DateTime?          @map("started_at")
-  finishedAt         DateTime?          @map("finished_at")
-  status             StatusEnum         @default(PENDING)
-  priority           PriorityEnum       @default(MEDIUM)
-  createdAt          DateTime           @default(now()) @map("created_at")
-  updatedAt          DateTime           @updatedAt @map("updated_at")
+  estimatedPomodoros Int          @map("estimated_pomodoros")
+  startedAt          DateTime     @map("started_at")
+  finishedAt         DateTime?    @map("finished_at")
+  status             StatusEnum   @default(PENDING)
+  priority           PriorityEnum @default(MEDIUM)
+  createdAt          DateTime     @default(now()) @map("created_at")
+  updatedAt          DateTime     @updatedAt @map("updated_at")
 
-  pomodoroSessions   PomodoroSession[]
-  tags               Tag[]
+  pomodoroSessions PomodoroSession[]
+  tags             Tag[]
 
   @@index([status])
   @@index([priority])
