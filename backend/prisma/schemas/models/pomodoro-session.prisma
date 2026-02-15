@@ -1,0 +1,14 @@
+model PomodoroSession {
+  id              Int       @id @default(autoincrement())
+  startedAt       DateTime
+  finishedAt      DateTime?
+  durationMinutes Int
+  isCompleted     Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  taskId          Int
+  task            Task      @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@map("pomodoro_sessions")
+}

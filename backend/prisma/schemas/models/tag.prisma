@@ -4,5 +4,7 @@ model Tag {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  tasks     Task[]
+
   @@map("tags")
 }
