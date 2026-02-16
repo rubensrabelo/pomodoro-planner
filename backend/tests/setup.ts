@@ -19,8 +19,8 @@ beforeAll(async () => {
   execSync("npx prisma migrate deploy", {
     stdio: "inherit",
   });
-});
+}, 30000);
 
 afterAll(async () => {
   await container.stop();
-});
+}, 30000);
