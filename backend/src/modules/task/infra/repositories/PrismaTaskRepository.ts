@@ -1,10 +1,10 @@
-import { ITaskRepository } from "./ITaskRepository"
-import { prisma } from "@/infra/prisma/client"
-import { Task as PrismaTask } from "prisma/generated/prisma_client/client"
-import { CreateTaskDTO } from "../../application/dtos/CreateTaskDTO"
-import { Task } from "../../domain/Task"
-import { UpdateTaskDTO } from "../../application/dtos/UpdateTaskDTO"
-import { EntityNotFoundError } from "@/shared/errors"
+import { ITaskRepository } from "./ITaskRepository";
+import { prisma } from "@/infra/prisma/client";
+import { Task as PrismaTask } from "prisma/generated/prisma_client/client";
+import { CreateTaskDTO } from "../../application/dtos/CreateTaskDTO";
+import { Task } from "../../domain/Task";
+import { UpdateTaskDTO } from "../../application/dtos/UpdateTaskDTO";
+import { EntityNotFoundError } from "@/shared/errors";
 
 export class PrismaTaskRepository implements ITaskRepository {
     async findAll(): Promise<Task[]> {

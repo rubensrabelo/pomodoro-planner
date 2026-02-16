@@ -1,5 +1,5 @@
-import { PriorityEnum } from "../../domain/enums/PriorityEnum"
-import { StatusEnum } from "../../domain/enums/StatusEnum"
+import { PriorityEnum } from "../../domain/enums/PriorityEnum";
+import { StatusEnum } from "../../domain/enums/StatusEnum";
 
 export interface TaskResponseDTO {
   id: number

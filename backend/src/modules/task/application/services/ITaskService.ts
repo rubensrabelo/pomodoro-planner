@@ -1,6 +1,6 @@
-import { CreateTaskDTO } from "../dtos/CreateTaskDTO"
-import { TaskResponseDTO } from "../dtos/TaskResponseDTO"
-import { UpdateTaskDTO } from "../dtos/UpdateTaskDTO"
+import { CreateTaskDTO } from "../dtos/CreateTaskDTO";
+import { TaskResponseDTO } from "../dtos/TaskResponseDTO";
+import { UpdateTaskDTO } from "../dtos/UpdateTaskDTO";
 
 export interface ITaskService {
   findAll(): Promise<TaskResponseDTO[]>

@@ -1,6 +1,6 @@
-import { CreateTaskDTO } from "../../application/dtos/CreateTaskDTO"
-import { UpdateTaskDTO } from "../../application/dtos/UpdateTaskDTO"
-import { Task } from "../../domain/Task"
+import { CreateTaskDTO } from "../../application/dtos/CreateTaskDTO";
+import { UpdateTaskDTO } from "../../application/dtos/UpdateTaskDTO";
+import { Task } from "../../domain/Task";
 
 export interface ITaskRepository {
     findAll(): Promise<Task[]>

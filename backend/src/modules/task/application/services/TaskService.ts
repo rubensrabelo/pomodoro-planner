@@ -1,10 +1,10 @@
-import { ITaskService } from "./ITaskService"
-import { ITaskRepository } from "../../infra/repositories/ITaskRepository"
-import { CreateTaskDTO } from "../dtos/CreateTaskDTO"
-import { UpdateTaskDTO } from "../dtos/UpdateTaskDTO"
-import { TaskResponseDTO } from "../dtos/TaskResponseDTO"
-import { EntityNotFoundError, NotFoundError } from "@/shared/errors"
-import { Task } from "../../domain/Task"
+import { ITaskService } from "./ITaskService";
+import { ITaskRepository } from "../../infra/repositories/ITaskRepository";
+import { CreateTaskDTO } from "../dtos/CreateTaskDTO";
+import { UpdateTaskDTO } from "../dtos/UpdateTaskDTO";
+import { TaskResponseDTO } from "../dtos/TaskResponseDTO";
+import { Task } from "../../domain/Task";
+import { EntityNotFoundError, NotFoundError } from "@/shared/errors";
 
 export class TaskService implements ITaskService {
     constructor(private readonly taskRepository: ITaskRepository) { }
