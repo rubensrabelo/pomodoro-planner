@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { tagController } from "../../infra/container/tag.container";
+import { tagController } from "../../infra/container/tagContainer";
 import { handleAsync } from "../../../../shared/utils/asyncHandler";
 import { validate } from "../../../../shared/middlewares/validate";
 import {
