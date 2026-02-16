@@ -4,27 +4,64 @@
 
 ```bash
 src/
+├─ app.ts
+├─ server.ts
+│
 ├─ modules/
-│  └─ tag/
-│     ├─ api/
-│     │  ├─ controllers/
-│     │  └─ routes/
-│     ├─ domain/
-│     ├─ application/
-│     │  ├─ dtos/
-│     │  └─ services/
-│     └─ infra/
-│        ├─ container/
-│        ├─ errors/
-│        └─ repositories/
+│  ├─ tag/
+│  │  ├─ api/
+│  │  │  ├─ controllers/
+│  │  │  └─ routes/
+│  │  │
+│  │  ├─ application/
+│  │  │  ├─ dtos/
+│  │  │  └─ services/
+│  │  │
+│  │  ├─ domain/
+│  │  │
+│  │  ├─ infra/
+│  │  │  ├─ container/
+│  │  │  └─ repositories/
+│  │  │
+│  │  ├─ validators/
+│  │  │
+│  │  └─ docs/
+│  │
+│  ├─ task/
+│  │  ├─ api/
+│  │  │  ├─ controllers/
+│  │  │  └─ routes/
+│  │  │
+│  │  ├─ application/
+│  │  │  ├─ dtos/
+│  │  │  └─ services/
+│  │  │
+│  │  ├─ domain/
+│  │  │
+│  │  ├─ infra/
+│  │  │  ├─ container/
+│  │  │  └─ repositories/
+│  │  │
+│  │  ├─ validators/
+│  │  │
+│  │  └─ docs/
 │
 ├─ infra/
 │  └─ prisma/
-│     └─ client.ts
+│     ├─ client.ts
+│     └─ migrations/
 │
 ├─ shared/
+│  ├─ docs/
 │  ├─ errors/
-│  └─ middlewares/
+│  ├─ middlewares/
+│  └─ utils/
 │
-└─ server.ts
+└─ tests/
+   ├─ integration/
+   │  ├─ tag/
+   │  └─ task/
+   ├─ unit/
+   └─ helpers/
+
 ```

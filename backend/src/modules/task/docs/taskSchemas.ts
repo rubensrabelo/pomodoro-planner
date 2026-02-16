@@ -2,6 +2,25 @@
  * @openapi
  * components:
  *   schemas:
+ *     Tag:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           example: 1
+ *         name:
+ *           type: string
+ *           example: Backend
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *       required:
+ *         - id
+ *         - name
+ *
  *     Task:
  *       type: object
  *       properties:
@@ -38,6 +57,13 @@
  *         updatedAt:
  *           type: string
  *           format: date-time
+ *
+ *         tags:
+ *           type: array
+ *           description: Tags associated with the task
+ *           items:
+ *             $ref: '#/components/schemas/Tag'
+ *
  *       required:
  *         - id
  *         - title
