@@ -13,30 +13,34 @@ export class TaskTagService implements ITaskTagService {
   ) { }
 
   async addTag(taskId: number, tagId: number): Promise<void> {
-    try {
-      await this.taskRepository.findById(taskId);
-      await this.tagRepository.findById(tagId);
+    const task = await this.taskRepository.findById(taskId);
 
-      await this.taskTagRepository.addTag(taskId, tagId);
-    } catch (err: any) {
-      if (err instanceof EntityNotFoundError) {
-        throw new NotFoundError("Task not found");
-      }
-      throw err;
+    if (!task) {
+      throw new NotFoundError("Task not found");
     }
+
+    const tag = await this.tagRepository.findById(tagId);
+
+    if (!tag) {
+      throw new NotFoundError("Tag not found");
+    }
+
+    await this.taskTagRepository.addTag(taskId, tagId);
   }
 
   async removeTag(taskId: number, tagId: number): Promise<void> {
-    try {
-      await this.taskRepository.findById(taskId);
-      await this.tagRepository.findById(tagId);
+    const task = await this.taskRepository.findById(taskId);
 
-      await this.taskTagRepository.removeTag(taskId, tagId);
-    } catch (err: any) {
-      if (err instanceof EntityNotFoundError) {
-        throw new NotFoundError("Task not found");
-      }
-      throw err;
+    if (!task) {
+      throw new NotFoundError("Task not found");
     }
+
+    const tag = await this.tagRepository.findById(tagId);
+
+    if (!tag) {
+      throw new NotFoundError("Tag not found");
+    }
+
+    await this.taskTagRepository.removeTag(taskId, tagId);
   }
 }
