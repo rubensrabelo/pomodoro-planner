@@ -1,5 +1,6 @@
 import { PriorityEnum } from "../../domain/enums/PriorityEnum";
 import { StatusEnum } from "../../domain/enums/StatusEnum";
+import { TagSummaryDTO } from "./TagSummaryDTO";
 
 export interface TaskResponseDTO {
   id: number
@@ -12,4 +13,5 @@ export interface TaskResponseDTO {
   priority: PriorityEnum
   createdAt: Date
   updatedAt: Date
+  tags: TagSummaryDTO[]
 }

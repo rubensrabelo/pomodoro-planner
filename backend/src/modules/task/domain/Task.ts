@@ -12,6 +12,7 @@ export class Task {
     public status: StatusEnum,
     public priority: PriorityEnum,
     public readonly createdAt: Date,
-    public readonly updatedAt: Date
+    public readonly updatedAt: Date,
+    public tags: { id: number; name: string }[] = []
   ) {}
 }

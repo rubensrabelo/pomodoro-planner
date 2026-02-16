@@ -3,8 +3,8 @@ import { ITaskRepository } from "../../infra/repositories/ITaskRepository";
 import { CreateTaskDTO } from "../dtos/CreateTaskDTO";
 import { UpdateTaskDTO } from "../dtos/UpdateTaskDTO";
 import { TaskResponseDTO } from "../dtos/TaskResponseDTO";
-import { Task } from "../../domain/Task";
 import { EntityNotFoundError, NotFoundError } from "@/shared/errors";
+import { PrismaTaskWithTags } from "../../types/PrismaTaskWithTags";
 
 export class TaskService implements ITaskService {
     constructor(private readonly taskRepository: ITaskRepository) { }
@@ -54,7 +54,7 @@ export class TaskService implements ITaskService {
         }
     }
 
-    private toResponseDTO(task: Task): TaskResponseDTO {
+    private toResponseDTO(task: PrismaTaskWithTags): TaskResponseDTO {
         return {
             id: task.id,
             title: task.title,
@@ -66,6 +66,7 @@ export class TaskService implements ITaskService {
             priority: task.priority,
             createdAt: task.createdAt,
             updatedAt: task.updatedAt,
+            tags: task.tags ?? [],
         }
     }
 
