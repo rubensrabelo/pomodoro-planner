@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { TaskTagService } from "@/modules/task/application/services/TaskTagService";
+import { NotFoundError } from "@/shared/errors";
 
 describe("TaskTagService", () => {
   let mockTaskTagRepository: any;
@@ -52,23 +53,24 @@ describe("TaskTagService", () => {
     expect(mockTaskTagRepository.removeTag).toHaveBeenCalledWith(1, 2);
   });
 
-  it("should still call addTag even if task or tag does not exist (current implementation behavior)", async () => {
+  it("should throw NotFoundError when task does not exist", async () => {
     mockTaskRepository.findById.mockResolvedValue(null);
-    mockTagRepository.findById.mockResolvedValue(null);
-    mockTaskTagRepository.addTag.mockResolvedValue(undefined);
 
-    await service.addTag(1, 2);
+    await expect(service.addTag(1, 2))
+      .rejects
+      .toThrow(NotFoundError);
 
-    expect(mockTaskTagRepository.addTag).toHaveBeenCalledWith(1, 2);
+    expect(mockTaskTagRepository.addTag).not.toHaveBeenCalled();
   });
 
-  it("should still call removeTag even if task or tag does not exist (current implementation behavior)", async () => {
-    mockTaskRepository.findById.mockResolvedValue(null);
+  it("should throw NotFoundError when tag does not exist", async () => {
+    mockTaskRepository.findById.mockResolvedValue({ id: 1 });
     mockTagRepository.findById.mockResolvedValue(null);
-    mockTaskTagRepository.removeTag.mockResolvedValue(undefined);
 
-    await service.removeTag(1, 2);
+    await expect(service.addTag(1, 2))
+      .rejects
+      .toThrow(NotFoundError);
 
-    expect(mockTaskTagRepository.removeTag).toHaveBeenCalledWith(1, 2);
+    expect(mockTaskTagRepository.addTag).not.toHaveBeenCalled();
   });
 });
