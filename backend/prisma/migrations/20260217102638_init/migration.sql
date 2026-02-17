@@ -19,12 +19,22 @@ CREATE TABLE "pomodoro_sessions" (
 );
 
 -- CreateTable
+CREATE TABLE "tags" (
+    "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
+    "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "tags_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "tasks" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "estimated_pomodoros" INTEGER NOT NULL,
-    "started_at" TIMESTAMP(3),
+    "started_at" TIMESTAMP(3) NOT NULL,
     "finished_at" TIMESTAMP(3),
     "status" "StatusEnum" NOT NULL DEFAULT 'PENDING',
     "priority" "PriorityEnum" NOT NULL DEFAULT 'MEDIUM',
@@ -41,6 +51,9 @@ CREATE TABLE "_TagToTask" (
 
     CONSTRAINT "_TagToTask_AB_pkey" PRIMARY KEY ("A","B")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "tags_name_key" ON "tags"("name");
 
 -- CreateIndex
 CREATE INDEX "tasks_status_idx" ON "tasks"("status");
