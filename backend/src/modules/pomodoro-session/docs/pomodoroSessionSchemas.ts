@@ -8,22 +8,22 @@
  *         id:
  *           type: integer
  *           example: 1
- *         taskId:
- *           type: integer
- *           example: 3
  *         startedAt:
  *           type: string
  *           format: date-time
- *         endedAt:
+ *         finishedAt:
  *           type: string
  *           format: date-time
  *           nullable: true
- *         durationInMinutes:
+ *         durationMinutes:
  *           type: integer
  *           example: 25
- *         completed:
+ *         isCompleted:
  *           type: boolean
- *           example: true
+ *           example: false
+ *         taskId:
+ *           type: integer
+ *           example: 3
  *         createdAt:
  *           type: string
  *           format: date-time
@@ -32,31 +32,56 @@
  *           format: date-time
  *       required:
  *         - id
- *         - taskId
  *         - startedAt
- *         - durationInMinutes
- *         - completed
+ *         - durationMinutes
+ *         - isCompleted
+ *         - taskId
+ *         - createdAt
+ *         - updatedAt
  *
  *     CreatePomodoroSession:
  *       type: object
- *       description: Payload to create a pomodoro session.
+ *       description: Payload to create a new pomodoro session.
  *       properties:
  *         startedAt:
  *           type: string
  *           format: date-time
- *         endedAt:
- *           type: string
- *           format: date-time
- *           nullable: true
- *         durationInMinutes:
+ *         durationMinutes:
  *           type: integer
  *           minimum: 1
  *           example: 25
- *         completed:
- *           type: boolean
- *           example: true
+ *         taskId:
+ *           type: integer
+ *           example: 3
  *       required:
  *         - startedAt
- *         - durationInMinutes
- *         - completed
+ *         - durationMinutes
+ *         - taskId
+ *
+ *     UpdatePomodoroSession:
+ *       type: object
+ *       description: Payload to update a pomodoro session.
+ *       properties:
+ *         startedAt:
+ *           type: string
+ *           format: date-time
+ *         finishedAt:
+ *           type: string
+ *           format: date-time
+ *           nullable: true
+ *         durationMinutes:
+ *           type: integer
+ *           minimum: 1
+ *         isCompleted:
+ *           type: boolean
+ *
+ *     CompletePomodoroSession:
+ *       type: object
+ *       description: Payload to complete a pomodoro session.
+ *       properties:
+ *         finishedAt:
+ *           type: string
+ *           format: date-time
+ *       required:
+ *         - finishedAt
  */

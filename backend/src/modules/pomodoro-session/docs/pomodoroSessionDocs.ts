@@ -1,22 +1,16 @@
 /**
  * @openapi
  * tags:
- *   - name: PomodoroSessions
+ *   - name: Pomodoros
  *     description: Pomodoro session management
  */
 
 /**
  * @openapi
- * /tasks/{taskId}/pomodoro-sessions:
+ * /pomodoros:
  *   get:
- *     summary: List all pomodoro sessions for a task
- *     tags: [PomodoroSessions]
- *     parameters:
- *       - in: path
- *         name: taskId
- *         required: true
- *         schema:
- *           type: integer
+ *     summary: List all pomodoro sessions
+ *     tags: [Pomodoros]
  *     responses:
  *       200:
  *         description: List of pomodoro sessions
@@ -26,22 +20,15 @@
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/PomodoroSession'
- *       404:
- *         description: Task not found
  */
 
 /**
  * @openapi
- * /tasks/{taskId}/pomodoro-sessions/{id}:
+ * /pomodoros/{id}:
  *   get:
  *     summary: Get pomodoro session by ID
- *     tags: [PomodoroSessions]
+ *     tags: [Pomodoros]
  *     parameters:
- *       - in: path
- *         name: taskId
- *         required: true
- *         schema:
- *           type: integer
  *       - in: path
  *         name: id
  *         required: true
@@ -60,16 +47,33 @@
 
 /**
  * @openapi
- * /tasks/{taskId}/pomodoro-sessions:
- *   post:
- *     summary: Create a new pomodoro session for a task
- *     tags: [PomodoroSessions]
+ * /pomodoros/task/{taskId}:
+ *   get:
+ *     summary: List pomodoro sessions by task
+ *     tags: [Pomodoros]
  *     parameters:
  *       - in: path
  *         name: taskId
  *         required: true
  *         schema:
  *           type: integer
+ *     responses:
+ *       200:
+ *         description: List of pomodoro sessions for the task
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/PomodoroSession'
+ */
+
+/**
+ * @openapi
+ * /pomodoros:
+ *   post:
+ *     summary: Create a new pomodoro session
+ *     tags: [Pomodoros]
  *     requestBody:
  *       required: true
  *       content:
@@ -85,22 +89,73 @@
  *               $ref: '#/components/schemas/PomodoroSession'
  *       400:
  *         description: Validation error
- *       404:
- *         description: Task not found
  */
 
 /**
  * @openapi
- * /tasks/{taskId}/pomodoro-sessions/{id}:
- *   delete:
- *     summary: Delete a pomodoro session
- *     tags: [PomodoroSessions]
+ * /pomodoros/{id}:
+ *   put:
+ *     summary: Update a pomodoro session
+ *     tags: [Pomodoros]
  *     parameters:
  *       - in: path
- *         name: taskId
+ *         name: id
  *         required: true
  *         schema:
  *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdatePomodoroSession'
+ *     responses:
+ *       200:
+ *         description: Pomodoro session updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PomodoroSession'
+ *       404:
+ *         description: Pomodoro session not found
+ */
+
+/**
+ * @openapi
+ * /pomodoros/{id}/complete:
+ *   patch:
+ *     summary: Complete a pomodoro session
+ *     tags: [Pomodoros]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CompletePomodoroSession'
+ *     responses:
+ *       200:
+ *         description: Pomodoro session completed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/PomodoroSession'
+ *       404:
+ *         description: Pomodoro session not found
+ */
+
+/**
+ * @openapi
+ * /pomodoros/{id}:
+ *   delete:
+ *     summary: Delete a pomodoro session
+ *     tags: [Pomodoros]
+ *     parameters:
  *       - in: path
  *         name: id
  *         required: true
