@@ -8,5 +8,8 @@ export default defineConfig({
     environment: "node",
     include: ["tests/**/*.spec.ts"],
     globalSetup: ["./tests/global-setup.ts"],
+
+    pool: "threads",
+    maxWorkers: 1,
   },
 });
