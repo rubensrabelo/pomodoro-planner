@@ -9,17 +9,33 @@
  * @openapi
  * /pomodoros:
  *   get:
- *     summary: List all pomodoro sessions
+ *     summary: List pomodoro sessions (paginated)
  *     tags: [Pomodoros]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         required: false
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 50
+ *           default: 10
+ *         required: false
+ *         description: Number of items per page
  *     responses:
  *       200:
- *         description: List of pomodoro sessions
+ *         description: Paginated list of pomodoro sessions
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/PomodoroSession'
+ *               $ref: '#/components/schemas/PaginatedPomodoroSessionsResponse'
  */
 
 /**
@@ -49,7 +65,7 @@
  * @openapi
  * /pomodoros/task/{taskId}:
  *   get:
- *     summary: List pomodoro sessions by task
+ *     summary: List pomodoro sessions by task (paginated)
  *     tags: [Pomodoros]
  *     parameters:
  *       - in: path
@@ -57,15 +73,30 @@
  *         required: true
  *         schema:
  *           type: integer
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         required: false
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 50
+ *           default: 10
+ *         required: false
+ *         description: Number of items per page
  *     responses:
  *       200:
- *         description: List of pomodoro sessions for the task
+ *         description: Paginated list of pomodoro sessions for the task
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/PomodoroSession'
+ *               $ref: '#/components/schemas/PaginatedPomodoroSessionsResponse'
  */
 
 /**

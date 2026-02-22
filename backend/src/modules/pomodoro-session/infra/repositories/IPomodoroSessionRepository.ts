@@ -1,9 +1,10 @@
+import { RepositoryPagination } from "@/modules/types/RepositoryPagination";
 import { CreatePomodoroSessionDTO } from "../../application/dtos/CreatePomodoroSessionDTO";
 import { UpdatePomodoroSessionDTO } from "../../application/dtos/UpdatePomodoroSessionDTO";
 import { PomodoroSession } from "../../domain/PomodoroSession";
 
 export interface IPomodoroSessionRepository {
-  findAll(): Promise<PomodoroSession[]>;
+  findAll(params: RepositoryPagination): Promise<[PomodoroSession[], number]>;
   findById(id: number): Promise<PomodoroSession | null>;
   findByTaskId(taskId: number): Promise<PomodoroSession[]>;
   create(data: CreatePomodoroSessionDTO): Promise<PomodoroSession>;

@@ -4,21 +4,37 @@ import { CreateTagDTO } from "../dtos/CreateTagDTO";
 import { UpdateTagDTO } from "../dtos/UpdateTagDTO";
 import { TagResponseDTO } from "../dtos/TagResponseDTO";
 import { Tag } from "../../domain/Tag";
-import { 
+import {
   ConflictError,
   DuplicateEntityError,
   EntityNotFoundError,
-  NotFoundError 
+  NotFoundError
 } from "../../../../shared/errors";
+import { PaginationParams } from "@/modules/types/PaginationParams";
+import { PaginatedResponse } from "@/modules/types/PaginatedResponse";
 
 export class TagService implements ITagService {
   constructor(
     private readonly tagRepository: ITagRepository
   ) { }
 
-  async findAll(): Promise<TagResponseDTO[]> {
-    const tags = await this.tagRepository.findAll();
-    return tags.map(this.toResponseDTO);
+  async findAll(params: PaginationParams): Promise<PaginatedResponse<TagResponseDTO>> {
+    const { page, limit } = params;
+    const skip = (page - 1) * limit;
+
+    const [tags, total] = await this.tagRepository.findAll({
+      skip,
+      take: limit,
+    });
+    return {
+      data: tags.map(tag => this.toResponseDTO(tag)),
+      meta: {
+        total,
+        page,
+        lastPage: Math.ceil(total / limit),
+        limit,
+      },
+    };
   }
 
   async findById(id: number): Promise<TagResponseDTO> {

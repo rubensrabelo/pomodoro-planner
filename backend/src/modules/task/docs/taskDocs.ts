@@ -11,15 +11,31 @@
  *   get:
  *     summary: List all tasks
  *     tags: [Tasks]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         required: false
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 50
+ *           default: 10
+ *         required: false
+ *         description: Number of items per page
  *     responses:
  *       200:
- *         description: List of tasks
+ *         description: Paginated list of tasks
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Task'
+ *               $ref: '#/components/schemas/PaginatedTasks'
  */
 
 /**

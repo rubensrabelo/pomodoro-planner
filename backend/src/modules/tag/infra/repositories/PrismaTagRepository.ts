@@ -2,14 +2,25 @@ import { prisma } from "../../../../infra/prisma/client";
 import { DuplicateEntityError, EntityNotFoundError } from "../../../../shared/errors";
 import { Tag } from "../../domain/Tag";
 import { ITagRepository } from "./ITagRepository";
+import { RepositoryPagination } from "../../../types/RepositoryPagination";
 
 export class PrismaTagRepository implements ITagRepository {
-  async findAll(): Promise<Tag[]> {
-    const tags = await prisma.tag.findMany();
+  async findAll(params: RepositoryPagination): Promise<[Tag[], number]> {
+    const [tags, total] = await Promise.all([
+      prisma.tag.findMany({
+        skip: params.skip,
+        take: params.take,
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.tag.count(),
+    ]);
 
-    return tags.map(
-      t => new Tag(t.id, t.name, t.createdAt, t.updatedAt)
-    );
+    return [
+      tags.map(
+        t => new Tag(t.id, t.name, t.createdAt, t.updatedAt)
+      ),
+      total,
+    ];
   }
 
   async findById(id: number): Promise<Tag | null> {

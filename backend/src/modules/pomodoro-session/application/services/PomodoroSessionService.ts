@@ -9,15 +9,30 @@ import {
   NotFoundError
 } from "../../../../shared/errors";
 import { CompletePomodoroSessionDTO } from "../dtos/CompletePomodoroSessionDTO";
+import { PaginationParams } from "@/modules/types/PaginationParams";
+import { PaginatedResponse } from "@/modules/types/PaginatedResponse";
 
 export class PomodoroSessionService implements IPomodoroSessionService {
   constructor(
     private readonly pomodoroRepository: IPomodoroSessionRepository
   ) { }
 
-  async findAll(): Promise<PomodoroSessionResponseDTO[]> {
-    const sessions = await this.pomodoroRepository.findAll();
-    return sessions.map(this.toResponseDTO);
+  async findAll(params: PaginationParams): Promise<PaginatedResponse<PomodoroSessionResponseDTO>> {
+    const { page, limit } = params;
+    const skip = (page - 1) * limit;
+    const [sessions, total] = await this.pomodoroRepository.findAll({
+      skip,
+      take: limit,
+    });
+    return {
+      data: sessions.map(session => this.toResponseDTO(session)),
+      meta: {
+        total,
+        page,
+        lastPage: Math.ceil(total / limit),
+        limit,
+      },
+    }
   }
 
   async findById(id: number): Promise<PomodoroSessionResponseDTO> {

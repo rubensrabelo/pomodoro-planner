@@ -4,10 +4,12 @@ import { ITaskService } from "../../application/services/ITaskService";
 export class TaskController {
   constructor(
     private readonly taskService: ITaskService
-  ) {}
+  ) { }
 
   async findAll(req: Request, res: Response): Promise<Response> {
-    const tasks = await this.taskService.findAll();
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const tasks = await this.taskService.findAll({ page, limit });
     return res.json(tasks);
   }
 

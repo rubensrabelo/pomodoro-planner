@@ -5,13 +5,29 @@ import { UpdateTaskDTO } from "../dtos/UpdateTaskDTO";
 import { TaskResponseDTO } from "../dtos/TaskResponseDTO";
 import { EntityNotFoundError, NotFoundError } from "@/shared/errors";
 import { PrismaTaskWithTags } from "../../types/PrismaTaskWithTags";
+import { PaginationParams } from "@/modules/types/PaginationParams";
+import { PaginatedResponse } from "@/modules/types/PaginatedResponse";
 
 export class TaskService implements ITaskService {
     constructor(private readonly taskRepository: ITaskRepository) { }
 
-    async findAll(): Promise<TaskResponseDTO[]> {
-        const tasks = await this.taskRepository.findAll()
-        return tasks.map(this.toResponseDTO)
+    async findAll(params: PaginationParams): Promise<PaginatedResponse<TaskResponseDTO>> {
+        const { page, limit } = params;
+        const skip = (page - 1) * limit;
+        const [tasks, total] = await this.taskRepository.findAll({
+            skip,
+            take: limit,
+        });
+
+        return {
+            data: tasks.map(task => this.toResponseDTO(task)),
+            meta: {
+                total,
+                page,
+                lastPage: Math.ceil(total / limit),
+                limit,
+            },
+        };
     }
 
     async findById(id: number): Promise<TaskResponseDTO> {

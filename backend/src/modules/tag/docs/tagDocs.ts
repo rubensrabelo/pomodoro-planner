@@ -1,60 +1,5 @@
 /**
  * @openapi
- * components:
- *   schemas:
- *     Tag:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *           example: 1
- *         name:
- *           type: string
- *           example: backend
- *         createdAt:
- *           type: string
- *           format: date-time
- *         updatedAt:
- *           type: string
- *           format: date-time
- *       required:
- *         - id
- *         - name
- *
- *     CreateTag:
- *       type: object
- *       description: Payload to create a new tag. Tag name must be unique.
- *       properties:
- *         name:
- *           type: string
- *           minLength: 2
- *           maxLength: 50
- *           example: backend
- *       required:
- *         - name
- *
- *     UpdateTag:
- *       type: object
- *       description: Payload to update a tag. Tag name must be unique.
- *       properties:
- *         name:
- *           type: string
- *           minLength: 2
- *           maxLength: 50
- *           example: backend
- *       required:
- *         - name
- *
- *     ErrorResponse:
- *       type: object
- *       properties:
- *         message:
- *           type: string
- *           example: Tag name already exists
- */
-
-/**
- * @openapi
  * tags:
  *   - name: Tags
  *     description: Tag management
@@ -64,17 +9,33 @@
  * @openapi
  * /tags:
  *   get:
- *     summary: List all tags
+ *     summary: List tags (paginated)
  *     tags: [Tags]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           default: 1
+ *         required: false
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 50
+ *           default: 10
+ *         required: false
+ *         description: Number of items per page
  *     responses:
  *       200:
- *         description: List of tags
+ *         description: Paginated list of tags
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Tag'
+ *               $ref: '#/components/schemas/PaginatedTagsResponse'
  */
 
 /**

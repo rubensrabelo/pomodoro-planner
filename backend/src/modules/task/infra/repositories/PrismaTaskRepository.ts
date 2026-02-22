@@ -5,14 +5,23 @@ import { Task } from "../../domain/Task";
 import { UpdateTaskDTO } from "../../application/dtos/UpdateTaskDTO";
 import { EntityNotFoundError } from "@/shared/errors";
 import { PrismaTaskWithTags } from "../../types/PrismaTaskWithTags";
+import { RepositoryPagination } from "@/modules/types/RepositoryPagination";
 
 export class PrismaTaskRepository implements ITaskRepository {
-    async findAll(): Promise<Task[]> {
-        const tasks = await prisma.task.findMany({
-            orderBy: { startedAt: "asc" },
-        });
+    async findAll(params: RepositoryPagination): Promise<[Task[], number]> {
+        const [tasks, total] = await Promise.all([
+            prisma.task.findMany({
+                skip: params.skip,
+                take: params.take,
+                orderBy: { createdAt: "asc" },
+            }),
+            prisma.task.count(),
+        ]);
 
-        return tasks.map((t) => this.toDomain(t));
+        return [
+            tasks.map((t) => this.toDomain(t)),
+            total
+        ];
     }
 
     async findById(id: number): Promise<Task | null> {

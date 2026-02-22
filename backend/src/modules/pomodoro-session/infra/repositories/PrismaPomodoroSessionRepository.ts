@@ -1,3 +1,4 @@
+import { RepositoryPagination } from "@/modules/types/RepositoryPagination";
 import { prisma } from "../../../../infra/prisma/client";
 import { EntityNotFoundError } from "../../../../shared/errors";
 import { CreatePomodoroSessionDTO } from "../../application/dtos/CreatePomodoroSessionDTO";
@@ -8,12 +9,20 @@ import { IPomodoroSessionRepository } from "./IPomodoroSessionRepository";
 export class PrismaPomodoroSessionRepository
   implements IPomodoroSessionRepository {
 
-  async findAll(): Promise<PomodoroSession[]> {
-    const sessions = await prisma.pomodoroSession.findMany({
-      orderBy: { startedAt: "asc" }
-    });
+  async findAll(params: RepositoryPagination): Promise<[PomodoroSession[], number]> {
+    const [sessions, total] = await Promise.all([
+      prisma.pomodoroSession.findMany({
+        skip: params.skip,
+        take: params.take,
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.pomodoroSession.count(),
+    ]);
 
-    return sessions.map((s) => this.toDomain(s));
+    return [
+      sessions.map((s) => this.toDomain(s)),
+      total,
+    ];
   }
 
   async findById(id: number): Promise<PomodoroSession | null> {

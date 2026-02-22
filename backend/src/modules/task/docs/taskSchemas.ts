@@ -2,6 +2,22 @@
  * @openapi
  * components:
  *   schemas:
+ *     PaginationMeta:
+ *       type: object
+ *       properties:
+ *         total:
+ *           type: integer
+ *           example: 42
+ *         page:
+ *           type: integer
+ *           example: 1
+ *         lastPage:
+ *           type: integer
+ *           example: 5
+ *         limit:
+ *           type: integer
+ *           example: 10
+ *
  *     Tag:
  *       type: object
  *       properties:
@@ -57,13 +73,11 @@
  *         updatedAt:
  *           type: string
  *           format: date-time
- *
  *         tags:
  *           type: array
  *           description: Tags associated with the task
  *           items:
  *             $ref: '#/components/schemas/Tag'
- *
  *       required:
  *         - id
  *         - title
@@ -73,6 +87,16 @@
  *         - status
  *         - priority
  *
+ *     PaginatedTasks:
+ *       type: object
+ *       properties:
+ *         data:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/Task'
+ *         meta:
+ *           $ref: '#/components/schemas/PaginationMeta'
+ *
  *     CreateTask:
  *       type: object
  *       description: Payload to create a new task.
@@ -81,16 +105,13 @@
  *           type: string
  *           minLength: 2
  *           maxLength: 100
- *           example: Implement authentication
  *         description:
  *           type: string
  *           minLength: 2
  *           maxLength: 500
- *           example: Add JWT authentication to the API
  *         estimatedPomodoros:
  *           type: integer
  *           minimum: 1
- *           example: 4
  *         startedAt:
  *           type: string
  *           format: date-time
@@ -101,11 +122,9 @@
  *         status:
  *           type: string
  *           enum: [PENDING, IN_PROGRESS, DONE]
- *           example: PENDING
  *         priority:
  *           type: string
  *           enum: [LOW, MEDIUM, HIGH]
- *           example: MEDIUM
  *       required:
  *         - title
  *         - description
@@ -118,15 +137,10 @@
  *       properties:
  *         title:
  *           type: string
- *           minLength: 2
- *           maxLength: 100
  *         description:
  *           type: string
- *           minLength: 2
- *           maxLength: 500
  *         estimatedPomodoros:
  *           type: integer
- *           minimum: 1
  *         startedAt:
  *           type: string
  *           format: date-time
