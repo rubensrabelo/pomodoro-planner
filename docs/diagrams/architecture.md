@@ -2,25 +2,39 @@
 
 ```mermaid
 flowchart LR
+    %% Person
     User[User]
 
-    subgraph Frontend
-        FE[Web App<br/>React / Vite]
+    %% Frontend
+    subgraph Frontend [Frontend Container]
+        FE[Web Application<br/>React + Vite]
     end
 
-    subgraph Backend
-        API[API<br/>FastAPI]
+    %% Backend
+    subgraph Backend [Backend Container - Node.js + TypeScript]
+        Controller[Controllers<br/>Express Routes]
+        IService[IService Interfaces]
         Service[Application Services]
-        Repo[Repositories]
+        IRepository[IRepository Interfaces]
+        Repository[Prisma Repositories]
+        Prisma[Prisma ORM]
     end
 
-    subgraph Database
-        DB[(SQLite / PostgreSQL)]
+    %% Database
+    subgraph Database [Database Container]
+        DB[(PostgreSQL)]
     end
 
-    User --> FE
-    FE --> API
-    API --> Service
-    Service --> Repo
-    Repo --> DB
+    %% Flow
+    User -->|Uses| FE
+    FE -->|HTTP/JSON| Controller
+
+    Controller --> IService
+    IService --> Service
+
+    Service --> IRepository
+    IRepository --> Repository
+
+    Repository --> Prisma
+    Prisma -->|SQL| DB
 ```

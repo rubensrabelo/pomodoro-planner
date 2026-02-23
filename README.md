@@ -4,6 +4,8 @@
 
 A proposta do projeto é permitir que o usuário **cadastre tarefas** e defina **a quantidade estimada de pomodoros** necessária para cada uma. À medida que as tarefas são executadas, os pomodoros concluídos são registrados, possibilitando o acompanhamento do progresso ao longo do tempo.
 
+Obs.: A Camada de Frontend ainda não foi implementada
+
 ---
 
 ## Objetivo

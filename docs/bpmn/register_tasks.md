@@ -2,14 +2,13 @@
 
 ```mermaid
 flowchart LR
-    Inicio([Início]) --> AcessarSistema[Acessar sistema]
-    AcessarSistema --> AbrirTarefas[Abrir área de tarefas]
+    Inicio([Início]) --> AbrirTarefas[Abrir área de tarefas]
 
     AbrirTarefas --> NovaTarefa[Criar nova tarefa]
     NovaTarefa --> PreencherDados[Preencher dados da tarefa]
 
-    PreencherDados --> DefinirDatas[Definir datas de início e término]
-    DefinirDatas --> DefinirPrioridade[Definir prioridade]
+    PreencherDados --> DefinirData[Definir data de início]
+    DefinirData --> DefinirPrioridade[Definir prioridade]
 
     DefinirPrioridade --> SelecionarTags[Selecionar ou criar tags]
     SelecionarTags --> RevisarTarefa[Revisar informações]
