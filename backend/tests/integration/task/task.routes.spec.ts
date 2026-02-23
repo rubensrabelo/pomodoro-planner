@@ -45,7 +45,14 @@ describe("Task Routes Integration", () => {
     const response = await request(app).get("/tasks");
 
     expect(response.status).toBe(200);
-    expect(response.body.length).toBe(1);
+
+    expect(response.body.data).toHaveLength(1);
+    expect(response.body.data[0].title).toBe("Estudar DDD");
+
+    expect(response.body.meta.total).toBe(1);
+    expect(response.body.meta.page).toBe(1);
+    expect(response.body.meta.limit).toBeDefined();
+    expect(response.body.meta.lastPage).toBe(1);
   });
 
   it("should return a task by id", async () => {

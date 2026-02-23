@@ -10,7 +10,6 @@ describe("Pomodoro Routes Integration", () => {
   beforeEach(async () => {
     await cleanDatabase();
 
-    // 🔥 Criar Task válida antes dos testes
     const taskResponse = await request(app)
       .post("/tasks")
       .send({
@@ -60,7 +59,15 @@ describe("Pomodoro Routes Integration", () => {
       .get("/pomodoros");
 
     expect(response.status).toBe(200);
-    expect(response.body.length).toBe(1);
+    
+    
+    expect(response.body.data).toHaveLength(1);
+    expect(response.body.data[0].durationMinutes).toBe(25);
+
+    expect(response.body.meta.total).toBe(1);
+    expect(response.body.meta.page).toBe(1);
+    expect(response.body.meta.limit).toBeDefined();
+    expect(response.body.meta.lastPage).toBe(1);
   });
 
   it("should return a pomodoro session by id", async () => {
