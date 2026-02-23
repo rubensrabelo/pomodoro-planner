@@ -35,12 +35,20 @@ describe("PomodoroSessionService", () => {
   });
 
   it("should return all pomodoro sessions", async () => {
-    mockRepository.findAll.mockResolvedValue([fakeSession]);
+    mockRepository.findAll.mockResolvedValue([
+      [fakeSession],
+      1
+    ]);
 
-    const result = await service.findAll();
+    const result = await service.findAll({ page:1, limit: 10});
 
-    expect(result).toHaveLength(1);
-    expect(result[0].durationMinutes).toBe(25);
+    expect(result.data).toHaveLength(1);
+    expect(result.data[0].durationMinutes).toBe(25);
+
+    expect(result.meta.total).toBe(1);
+    expect(result.meta.page).toBe(1);
+    expect(result.meta.limit).toBe(10);
+    expect(result.meta.lastPage).toBe(1);
   });
 
   it("should return pomodoro session by id", async () => {

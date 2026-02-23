@@ -35,12 +35,20 @@ describe("TaskService", () => {
   });
 
   it("should return all tasks", async () => {
-    mockRepository.findAll.mockResolvedValue([fakeTask]);
+    mockRepository.findAll.mockResolvedValue([
+      [fakeTask],
+      1
+    ]);
 
-    const result = await service.findAll();
+    const result = await service.findAll({ page: 1, limit: 10 });
 
-    expect(result).toHaveLength(1);
-    expect(result[0].title).toBe("Estudar DDD");
+    expect(result.data).toHaveLength(1);
+    expect(result.data[0].title).toBe("Estudar DDD");
+
+    expect(result.meta.total).toBe(1);
+    expect(result.meta.page).toBe(1);
+    expect(result.meta.limit).toBe(10);
+    expect(result.meta.lastPage).toBe(1);
   });
 
   it("should return task by id", async () => {

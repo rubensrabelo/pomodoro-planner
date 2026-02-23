@@ -1,10 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { TagService } from "@/modules/tag/application/services/TagService";
-import { 
+import {
   ConflictError,
   DuplicateEntityError,
   EntityNotFoundError,
-  NotFoundError 
+  NotFoundError
 } from "@/shared/errors";
 
 describe("TagService", () => {
@@ -31,12 +31,20 @@ describe("TagService", () => {
   });
 
   it("should return all tags", async () => {
-    mockRepository.findAll.mockResolvedValue([fakeTag]);
+    mockRepository.findAll.mockResolvedValue([
+      [fakeTag],
+      1
+    ]);
 
-    const result = await service.findAll();
+    const result = await service.findAll({ page: 1, limit: 10 });
 
-    expect(result).toHaveLength(1);
-    expect(result[0].name).toBe("backend");
+    expect(result.data).toHaveLength(1);
+    expect(result.data[0].name).toBe("backend");
+
+    expect(result.meta.total).toBe(1);
+    expect(result.meta.page).toBe(1);
+    expect(result.meta.limit).toBe(10);
+    expect(result.meta.lastPage).toBe(1);
   });
 
   it("should return tag by id", async () => {
