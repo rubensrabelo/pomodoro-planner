@@ -56,6 +56,7 @@ export class PrismaPomodoroSessionRepository
     return this.toDomain(session);
   }
 
+  // Mudar isso aqui - Usuário pode transitar entre um estado e outro
   async complete(id: number, finishedAt: Date): Promise<PomodoroSession> {
     try {
       const session = await prisma.pomodoroSession.update({
