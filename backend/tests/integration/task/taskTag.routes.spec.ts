@@ -3,6 +3,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import { app } from "@/app";
 import { cleanDatabase } from "@/../tests/helpers/db";
 import { prisma } from "@/infra/prisma/client";
+import { ROUTES } from "tests/constants/routes";
 
 describe("TaskTag Routes Integration", () => {
 
@@ -22,7 +23,7 @@ describe("TaskTag Routes Integration", () => {
 
   it("should add tag to task", async () => {
     const taskResponse = await request(app)
-      .post("/tasks")
+      .post(ROUTES.tasks)
       .send(validTask);
 
     const tag = await prisma.tag.create({
@@ -30,7 +31,7 @@ describe("TaskTag Routes Integration", () => {
     });
 
     const response = await request(app)
-      .post(`/tasks/${taskResponse.body.id}/tags/${tag.id}`);
+      .post(`${ROUTES.tasks}/${taskResponse.body.id}/tags/${tag.id}`);
 
     expect(response.status).toBe(204);
 
@@ -45,7 +46,7 @@ describe("TaskTag Routes Integration", () => {
 
   it("should remove tag from task", async () => {
     const taskResponse = await request(app)
-      .post("/tasks")
+      .post(ROUTES.tasks)
       .send(validTask);
 
     const tag = await prisma.tag.create({
@@ -53,10 +54,10 @@ describe("TaskTag Routes Integration", () => {
     });
 
     await request(app)
-      .post(`/tasks/${taskResponse.body.id}/tags/${tag.id}`);
+      .post(`${ROUTES.tasks}/${taskResponse.body.id}/tags/${tag.id}`);
 
     const response = await request(app)
-      .delete(`/tasks/${taskResponse.body.id}/tags/${tag.id}`);
+      .delete(`${ROUTES.tasks}/${taskResponse.body.id}/tags/${tag.id}`);
 
     expect(response.status).toBe(204);
 
@@ -74,7 +75,7 @@ describe("TaskTag Routes Integration", () => {
     });
 
     const response = await request(app)
-      .post(`/tasks/9999/tags/${tag.id}`);
+      .post(`${ROUTES.tasks}/9999/tags/${tag.id}`);
 
     expect(response.status).toBe(404);
   });
@@ -85,7 +86,7 @@ describe("TaskTag Routes Integration", () => {
     });
 
     const response = await request(app)
-      .delete(`/tasks/9999/tags/${tag.id}`);
+      .delete(`${ROUTES.tasks}/9999/tags/${tag.id}`);
 
     expect(response.status).toBe(404);
   });

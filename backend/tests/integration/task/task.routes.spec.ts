@@ -2,6 +2,7 @@ import request from "supertest";
 import { describe, it, expect, beforeEach } from "vitest";
 import { app } from "@/app";
 import { cleanDatabase } from "@/../tests/helpers/db";
+import { ROUTES } from "tests/constants/routes";
 
 describe("Task Routes Integration", () => {
 
@@ -21,7 +22,7 @@ describe("Task Routes Integration", () => {
 
   it("should create a task", async () => {
     const response = await request(app)
-      .post("/tasks")
+      .post(ROUTES.tasks)
       .send(validTask);
 
     expect(response.status).toBe(201);
@@ -31,7 +32,7 @@ describe("Task Routes Integration", () => {
 
   it("should return 400 if required fields are missing", async () => {
     const response = await request(app)
-      .post("/tasks")
+      .post(ROUTES.tasks)
       .send({});
 
     expect(response.status).toBe(400);
@@ -39,10 +40,10 @@ describe("Task Routes Integration", () => {
 
   it("should list tasks", async () => {
     await request(app)
-      .post("/tasks")
+      .post(ROUTES.tasks)
       .send(validTask);
 
-    const response = await request(app).get("/tasks");
+    const response = await request(app).get(ROUTES.tasks);
 
     expect(response.status).toBe(200);
 
@@ -57,11 +58,11 @@ describe("Task Routes Integration", () => {
 
   it("should return a task by id", async () => {
     const created = await request(app)
-      .post("/tasks")
+      .post(ROUTES.tasks)
       .send(validTask);
 
     const response = await request(app)
-      .get(`/tasks/${created.body.id}`);
+      .get(`${ROUTES.tasks}/${created.body.id}`);
 
     expect(response.status).toBe(200);
     expect(response.body.title).toBe("Estudar DDD");
@@ -69,18 +70,18 @@ describe("Task Routes Integration", () => {
 
   it("should return 404 if task not found", async () => {
     const response = await request(app)
-      .get("/tasks/9999");
+      .get(`${ROUTES.tasks}/9999`);
 
     expect(response.status).toBe(404);
   });
 
   it("should update a task", async () => {
     const created = await request(app)
-      .post("/tasks")
+      .post(ROUTES.tasks)
       .send(validTask);
 
     const response = await request(app)
-      .put(`/tasks/${created.body.id}`)
+      .put(`${ROUTES.tasks}/${created.body.id}`)
       .send({ title: "Estudar Clean Architecture" });
 
     expect(response.status).toBe(200);
@@ -89,18 +90,18 @@ describe("Task Routes Integration", () => {
 
   it("should delete a task", async () => {
     const created = await request(app)
-      .post("/tasks")
+      .post(ROUTES.tasks)
       .send(validTask);
 
     const response = await request(app)
-      .delete(`/tasks/${created.body.id}`);
+      .delete(`${ROUTES.tasks}/${created.body.id}`);
 
     expect(response.status).toBe(204);
   });
 
   it("should return 404 when deleting non-existing task", async () => {
     const response = await request(app)
-      .delete("/tasks/9999");
+      .delete(`${ROUTES.tasks}/9999`);
 
     expect(response.status).toBe(404);
   });

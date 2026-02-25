@@ -2,6 +2,7 @@ import request from "supertest";
 import { describe, it, expect, beforeEach } from "vitest";
 import { app } from "@/app";
 import { cleanDatabase } from "@/../tests/helpers/db";
+import { ROUTES } from "tests/constants/routes";
 
 describe("Tag Routes Integration", () => {
 
@@ -11,7 +12,7 @@ describe("Tag Routes Integration", () => {
 
   it("should create a tag", async () => {
     const response = await request(app)
-      .post("/tags")
+      .post(ROUTES.tags)
       .send({ name: "backend" });
 
     expect(response.status).toBe(201);
@@ -21,7 +22,7 @@ describe("Tag Routes Integration", () => {
 
   it("should return 400 if name is missing", async () => {
     const response = await request(app)
-      .post("/tags")
+      .post(ROUTES.tags)
       .send({});
 
     expect(response.status).toBe(400);
@@ -29,11 +30,11 @@ describe("Tag Routes Integration", () => {
 
   it("should return 409 if tag already exists", async () => {
     await request(app)
-      .post("/tags")
+      .post(ROUTES.tags)
       .send({ name: "backend" });
 
     const response = await request(app)
-      .post("/tags")
+      .post(ROUTES.tags)
       .send({ name: "backend" });
 
     expect(response.status).toBe(409);
@@ -41,10 +42,10 @@ describe("Tag Routes Integration", () => {
 
   it("should list tags", async () => {
     await request(app)
-      .post("/tags")
+      .post(ROUTES.tags)
       .send({ name: "frontend" });
 
-    const response = await request(app).get("/tags");
+    const response = await request(app).get(ROUTES.tags);
 
     expect(response.status).toBe(200);
 
@@ -59,11 +60,11 @@ describe("Tag Routes Integration", () => {
 
   it("should return a tag by id", async () => {
     const created = await request(app)
-      .post("/tags")
+      .post(ROUTES.tags)
       .send({ name: "devops" });
 
     const response = await request(app)
-      .get(`/tags/${created.body.id}`);
+      .get(`${ROUTES.tags}/${created.body.id}`);
 
     expect(response.status).toBe(200);
     expect(response.body.name).toBe("devops");
@@ -71,18 +72,18 @@ describe("Tag Routes Integration", () => {
 
   it("should return 404 if tag not found", async () => {
     const response = await request(app)
-      .get("/tags/9999");
+      .get(`${ROUTES.tags}/9999`);
 
     expect(response.status).toBe(404);
   });
 
   it("should update a tag", async () => {
     const created = await request(app)
-      .post("/tags")
+      .post(ROUTES.tags)
       .send({ name: "mobile" });
 
     const response = await request(app)
-      .put(`/tags/${created.body.id}`)
+      .put(`${ROUTES.tags}/${created.body.id}`)
       .send({ name: "mobile-updated" });
 
     expect(response.status).toBe(200);
@@ -91,18 +92,18 @@ describe("Tag Routes Integration", () => {
 
   it("should delete a tag", async () => {
     const created = await request(app)
-      .post("/tags")
+      .post(ROUTES.tags)
       .send({ name: "temp" });
 
     const response = await request(app)
-      .delete(`/tags/${created.body.id}`);
+      .delete(`${ROUTES.tags}/${created.body.id}`);
 
     expect(response.status).toBe(204);
   });
 
   it("should return 404 when deleting non-existing tag", async () => {
     const response = await request(app)
-      .delete("/tags/9999");
+      .delete(`${ROUTES.tags}/9999`);
 
     expect(response.status).toBe(404);
   });

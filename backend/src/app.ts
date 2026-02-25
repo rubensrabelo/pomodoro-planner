@@ -8,14 +8,17 @@ import { pomodoroSessionRoutes } from "./modules/pomodoro-session/api/routes/pom
 import { errorHandler } from "./shared/middlewares/errorHandler";
 
 const app = express();
+const apiV1 = express.Router();
 
 app.use(express.json());
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use("/tags", tagRoutes);
-app.use("/tasks", taskRoutes);
-app.use("/tasks", taskTagRoutes);
-app.use("/pomodoros", pomodoroSessionRoutes);
+apiV1.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+apiV1.use("/tags", tagRoutes);
+apiV1.use("/tasks", taskRoutes);
+apiV1.use("/tasks", taskTagRoutes);
+apiV1.use("/pomodoros", pomodoroSessionRoutes);
+
+app.use("/api/v1", apiV1);
 
 app.use(errorHandler);
 
