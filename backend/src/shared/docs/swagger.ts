@@ -10,6 +10,14 @@ export const swaggerSpec = swaggerJsdoc({
     },
     servers: [
       {
+        url: "/api/v1",
+        description: "Servidor Atual (Dinâmico)",
+      },
+      {
+        url: "https://pomodoro-planner.onrender.com/api/v1",
+        description: "Servidor de Produção (Render)",
+      },
+      {
         url: "http://localhost:3000/api/v1",
         description: "Local server",
       },
@@ -18,5 +26,7 @@ export const swaggerSpec = swaggerJsdoc({
   apis: [
     "./src/modules/**/docs/*.ts",
     "./src/shared/docs/*.ts",
+    "./dist/src/modules/**/docs/*.js",
+    "./dist/src/shared/docs/*.js",
   ],
 });
