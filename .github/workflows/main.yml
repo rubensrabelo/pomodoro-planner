@@ -2,7 +2,7 @@ name: CI Backend
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, development ]
   pull_request:
     branches: [ main ]
 
@@ -13,6 +13,9 @@ jobs:
     defaults:
       run:
         working-directory: ./backend
+
+    env:
+      DATABASE_URL: postgresql://user_test:password_test@localhost:5432/myapp_test
 
     services:
       postgres:
@@ -44,13 +47,9 @@ jobs:
 
       - name: Prepare Database
         run: npm run db:deploy
-        env:
-          DATABASE_URL: postgresql://user_test:password_test@localhost:5432/myapp_test
 
       - name: Run Tests
         run: npm run test:run
-        env:
-          DATABASE_URL: postgresql://user_test:password_test@localhost:5432/myapp_test
 
       - name: Build
         run: npm run build
