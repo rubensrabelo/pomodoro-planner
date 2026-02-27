@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/server.ts",
-    "build": "tsc",
-    "db:deploy": "npx prisma migrate deploy && npx prisma generate",
+    "build": "tsc && npx prisma generate",
+    "postinstall": "npx prisma generate",
+    "start": "node -r tsconfig-paths/register dist/server.js",
+    "db:deploy": "npx prisma migrate deploy",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"
