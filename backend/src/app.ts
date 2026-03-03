@@ -1,5 +1,7 @@
 import express from "express";
 import swaggerUi from "swagger-ui-express";
+import cors from "cors";
+
 import { swaggerSpec } from "./shared/docs/swagger";
 import { tagRoutes } from "./modules/tag/api/routes/tagRoutes";
 import { taskRoutes } from "./modules/task/api/routes/taskRoutes";
@@ -10,6 +12,7 @@ import { errorHandler } from "./shared/middlewares/errorHandler";
 const app = express();
 const apiV1 = express.Router();
 
+app.use(cors());
 app.use(express.json());
 
 apiV1.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -21,5 +24,6 @@ apiV1.use("/pomodoros", pomodoroSessionRoutes);
 app.use("/api/v1", apiV1);
 
 app.use(errorHandler);
+
 
 export { app };
