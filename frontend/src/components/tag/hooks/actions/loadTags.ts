@@ -3,11 +3,15 @@ import { Tag } from "@/src/types/tag/tag";
 
 export async function loadTags(
   setTags: (tags: Tag[]) => void,
-  setLoading: (loading: boolean) => void
+  setLoading: (loading: boolean) => void,
+  setTotal: (total: number) => void,
+  page: number = 1,
+  limit: number = 5,
 ) {
   try {
-    const data = await tagService.getAll();
-    setTags(data);
+    const { tags, total } = await tagService.getAll(page, limit);
+    setTags(tags);
+    setTotal(total);
   } catch (error) {
     console.error("Erro ao carregar tags:", error);
   } finally {

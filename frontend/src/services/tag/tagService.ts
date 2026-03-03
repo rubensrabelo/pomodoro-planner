@@ -2,23 +2,16 @@ import { getApiUrl } from "@/src/utils/getApiUrl";
 import { Tag } from "@/src/types/tag/tag";
 
 export const tagService = {
-  async getAll(): Promise<Tag[]> {
-    const response = await fetch(getApiUrl("/tags"));
+  async getAll(page: number = 1, limit: number = 5): Promise<{ tags: Tag[], total: number }> {
+    const response = await fetch(getApiUrl(`/tags?page=${page}&limit=${limit}`));
     if (!response.ok) throw new Error("Erro ao buscar tags");
 
-    const data = await response.json();
+    const result = await response.json();
 
-    if (Array.isArray(data) && Array.isArray(data[0])) {
-      return data[0]; 
-    }
-    if (data && typeof data === 'object' && Array.isArray(data.tags)) {
-      return data.tags;
-    }
-    if (Array.isArray(data)) {
-      return data;
-    }
-
-    return [];
+    return { 
+      tags: result.data || [], 
+      total: result.meta?.total || 0 
+    };
   },
 
   async create(name: string): Promise<Tag> {
@@ -28,7 +21,8 @@ export const tagService = {
       body: JSON.stringify({ name }),
     });
     if (!response.ok) throw new Error("Erro ao criar tag");
-    return response.json() || [];
+    
+    return response.json();
   },
 
   async update(id: number, name: string): Promise<Tag> {
