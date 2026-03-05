@@ -1,0 +1,2 @@
+1. refatorarr o código do frontend
+2. Vou ter que remodelar a criação de uma tarefa para aceitar tbm tags ids
